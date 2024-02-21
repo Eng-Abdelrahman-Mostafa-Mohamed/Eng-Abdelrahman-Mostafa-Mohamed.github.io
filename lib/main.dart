@@ -236,21 +236,21 @@ class _MyAppState extends State<MyApp> {
                       onPressed: followLink,
                     ),
                   ),
-                  Link(
-                    target: LinkTarget.blank,
-                    uri: Uri.parse(
-                        'https://www.coursera.org/user/2fa87675dca7386e272537e3ee0d8255'),
-                    builder: (context, followLink) => IconButton(
-                      color: Colors.white,
-                      iconSize: (MediaQuery.of(context).size.width * 0.05 <
-                              MediaQuery.of(context).size.height * 0.05)
-                          ? MediaQuery.of(context).size.width * 0.05
-                          : MediaQuery.of(context).size.height * 0.05,
-                      hoverColor: const Color(0xff0056d1),
-                      icon: SvgPicture.string(courseraLogo),
-                      onPressed: followLink,
-                    ),
-                  ),
+                 // Link(
+                  //  target: LinkTarget.blank,
+                 //   uri: Uri.parse(
+                 //       'https://www.coursera.org/user/2fa87675dca7386e272537e3ee0d8255'),
+                  //  builder: (context, followLink) => IconButton(
+                 //     color: Colors.white,
+                   //   iconSize: (MediaQuery.of(context).size.width * 0.05 <
+                    //          MediaQuery.of(context).size.height * 0.05)
+                    //      ? MediaQuery.of(context).size.width * 0.05
+                    //      : MediaQuery.of(context).size.height * 0.05,
+                //      hoverColor: const Color(0xff0056d1),
+                 //     icon: SvgPicture.string(courseraLogo),
+               //       onPressed: followLink,
+              //      ),
+             //     ),
                   // Link(
                   //   target: LinkTarget.blank,
                   //   uri: Uri.parse('https://www.datacamp.com/profile/MH0386'),
