@@ -28,6 +28,11 @@ jobs:
       - name: Build Dioxus app
         run: dx build --release
 
+      - name: Debug file structure
+        run: |
+          ls -R target/wasm32-unknown-unknown/release/
+          ls -R dist/
+
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v2
         with:
