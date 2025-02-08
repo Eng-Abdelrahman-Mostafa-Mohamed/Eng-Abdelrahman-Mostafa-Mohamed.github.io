@@ -1,20 +1,58 @@
-name: gh-pages
+name: Build and Deploy Dioxus App
+
 on:
-    workflow_dispatch:
-    push:
-        branches: [main]
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
 jobs:
-    build:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Dioxus Deploy
-              uses: DioxusLabs/deploy-action@4f933485ec8f37a9dc1beec181f4eba58789523e
-              with:
-                  outDirectory: "target/dx/my_website/release/web/public"
-              # id: deployment
-              # continue-on-error: true
-            # - name: Check Deployment Status
-            #   if: steps.deployment.outcome != 'success'
-            #   run: |
-            #       echo "Deployment failed"
-            #       exit 1
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Rust and WASM target
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+          target: wasm32-unknown-unknown
+          components: rustfmt, clippy
+
+      - name: Install Dioxus CLI
+        run: cargo install dioxus-cli
+
+      - name: Get project name
+        id: project_name
+        run: |
+          PROJECT_NAME=$(grep 'name = ' Cargo.toml | cut -d '"' -f 2)
+          echo "PROJECT_NAME=$PROJECT_NAME" >> $GITHUB_ENV
+
+      - name: Build Dioxus app for WASM
+        run: |
+          cargo build --target wasm32-unknown-unknown --release
+
+      - name: Create dist directory
+        run: mkdir -p dist
+
+      - name: Copy static files
+        run: |
+          cp target/wasm32-unknown-unknown/release/${{ env.PROJECT_NAME }}.js dist/
+          cp target/wasm32-unknown-unknown/release/${{ env.PROJECT_NAME }}_bg.wasm dist/
+          cp index.html dist/
+          cp -r assets dist/  # Copy any additional assets if needed
+
+      - name: Replace placeholder in index.html
+        run: |
+          sed -i "s/__APP_NAME__/${{ env.PROJECT_NAME }}/g" dist/index.html
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v2
+        with:
+          artifact-name: dist
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          branch: gh-pages
+          folder: dist
