@@ -1,57 +1,42 @@
-name: gh-pages
+name: Build and Deploy Dioxus App
+
 on:
-    workflow_dispatch:
-    push:
-        branches: [main]
+  push:
+    branches:
+      - main  # Or your main branch name
+  workflow_dispatch: # Allow manual triggering
+
 jobs:
-    build:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Dioxus Deploy
-              uses: DioxusLabs/deploy-action@4f933485ec8f37a9dc1beec181f4eba58789523e
-              with:
-                  outDirectory: "target/dx/my_website/release/web/public"
-              # id: deployment
-              # continue-on-error: true
-            # - name: Check Deployment Status
-            #   if: steps.deployment.outcome != 'success'
-            #   run: |
-            #       echo "Deployment failed"
-            #       exit 1
-    deploy-resume:
-        # needs: build
-        # if: success()
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v4
-            - name: Fetch main
-              run: |
-                  git config --global user.name "GitHub Actions"
-                  git config --global user.email "actions@github.com"
-                  git fetch
-            - name: Download Resume
-            #   uses: robinraju/release-downloader@v1.11
-            #   with:
-            #       latest: true
-            #       fileName: "Abdelrahman Mostafa_250201_181502.pdf"
-            #       out-file-path: "data/docs/"
-            #       repository: "https://github.com/Eng-Abdelrahman-Mostafa-Mohamed/MyProfile/blob/main/assets/my_cv/Abdelrahman%20Mostafa_250201_181502.pdf"
-            # - name: Commit and Push Resume
-            #   run: |
-            #       git add data/docs/
-            #       git commit -m "Update Docs" || echo "No changes to commit"
-            #       git pull
-            #       git push || (echo "Failed to push changes" && exit 1)
-            - name: Fetch gh-pages
-              run: |
-                  git config --global user.name "GitHub Actions"
-                  git config --global user.email "actions@github.com"
-                  git fetch
-                  git checkout gh-pages || (echo "Failed to checkout gh-pages branch" && exit 1)
-            - name: Commit and Push Resume
-              run: |
-                  git checkout main -- data/docs/
-                  git add data/docs/
-                  git commit -m "Update Docs" || echo "No changes to commit"
-                  git push || (echo "Failed to push changes" && exit 1)
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Rust and WASM target
+        uses: actions-rs/toolchains@v1
+        with:
+          toolchain: stable
+          target: wasm32-unknown-unknown
+
+      - name: Build Dioxus app for WASM
+        run: cargo build --target wasm32-unknown-unknown --release
+
+      - name: Create dist directory
+        run: mkdir dist
+
+      - name: Copy static files
+        run: |
+          cp target/wasm32-unknown-unknown/release/your_app_name.js dist/
+          cp target/wasm32-unknown-unknown/release/your_app_name_bg.wasm dist/
+          cp index.html dist/  # Copy your index.html
+          # ... copy any other needed files (CSS, images, etc.) ...
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v1 # or v2 if available
+        with:
+          artifact-name: dist
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          branch: gh-pages # or main if you deploy to main branch
+          folder: dist
