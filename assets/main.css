@@ -1,0 +1,186 @@
+body,html{
+    background: black;
+    height: 100%;
+    margin: 0;
+    overflow: hidden; 
+}
+#social_media {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    min-height: 20px;
+    min-width: 190px;
+    border-radius: 20px; /* Added px for consistency */
+    background-color: white;
+    opacity: 0.9;
+    padding: 20px;
+}
+
+#links {
+    display: flex;
+    align-items: center; 
+}
+
+#links a { 
+    margin: 0 10px; 
+    display: inline-block; 
+}
+
+#links button {
+    background: white; 
+    border: none; 
+    padding: 0; 
+    cursor: pointer; 
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 5px;
+}
+
+#links img {
+    width: 30px;
+    height: 30px;
+}
+
+#links button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Specific hover effects (optional) */
+#links a[href*="github.com"] button:hover {
+    transform: scale(1.2);
+    filter: brightness(1.2);
+}
+
+#links a[href*="twitter.com"] button:hover {
+    transform: scale(1.2);
+    filter: brightness(1.2);
+}
+
+/* Fade-in animation (optional) */
+#links {
+    animation: fadeIn 1s ease-in-out;
+}
+
+.project-panel {
+    max-width: 500px;
+    padding: 1rem;
+    align-items: center;
+    border-radius: 8px;
+    background: #ffffff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+    margin-left: 50px;
+    margin-right: 50px;
+    margin-left: 700px;
+    border-radius: 20px;
+    padding: 20px;
+    color: black;
+    opacity: 0.3;
+}
+
+.project-panel:hover {
+    transform: translateY(-5px);
+}
+
+.project-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.project-content {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.project-title {
+    margin: 0;
+    font-size: 1.25rem;
+}
+
+
+
+
+
+
+
+
+#container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+/* Circle avatar styling */
+#my_avatar {
+    width: 200px; /* Adjust size as needed */
+    height: 200px; /* Adjust size as needed */
+    border-radius: 50%; /* Makes it a circle */
+    background-size: cover; /* Ensures the image fits */
+    background-position: center; /* Centers the image */
+    margin-top:250px; /* Adds space below the avatar */
+    margin-left: 900px;
+    border: 3px solid white; /* Optional: adds a border */
+
+}
+
+#panel{
+    margin-top: 50px;
+    margin-left: 50px;
+    background: whitesmoke;
+    opacity: 0.3;
+    border-radius: 20px;
+    padding: 20px;
+    color: gold;
+    font-family: monospace;
+}
+#cv{
+    margin-top: 30px;
+    margin-left: 50px;
+    border-radius: 20px;
+    padding: 20px;
+    color: gold;
+    font-family: monospace;
+}
+#typing_name {
+    position: absolute;
+    top: 65%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Centers the element precisely */
+    white-space: nowrap;
+    overflow: hidden;
+    color: white;
+    border-right: 3px solid;
+    animation: typing 3.5s steps(24, end) infinite,
+               blink-caret 0.75s step-end infinite;
+    font-family: monospace;
+    font-size: 1.2em;
+}
+
+
+@keyframes typing {
+    from { width: 0 }
+    to { width: 500 } /* Or a specific width */
+}
+
+@keyframes blink-caret {
+    from, to { border-color: transparent }
+    10% { border-color: white; }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
