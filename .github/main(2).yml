@@ -1,42 +1,13 @@
-name: Build and Deploy Dioxus App
-
+name: gh-pages
 on:
-  push:
-    branches:
-      - main  # Or your main branch name
-  workflow_dispatch: # Allow manual triggering
-
+    workflow_dispatch:
+    push:
+        branches: [main]
 jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Install Rust and WASM target
-        uses: actions-rs/toolchains@v1
-        with:
-          toolchain: stable
-          target: wasm32-unknown-unknown
-
-      - name: Build Dioxus app for WASM
-        run: cargo build --target wasm32-unknown-unknown --release
-
-      - name: Create dist directory
-        run: mkdir dist
-
-      - name: Copy static files
-        run: |
-          cp target/wasm32-unknown-unknown/release/your_app_name.js dist/
-          cp target/wasm32-unknown-unknown/release/your_app_name_bg.wasm dist/
-          cp index.html dist/  # Copy your index.html
-          # ... copy any other needed files (CSS, images, etc.) ...
-
-      - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v1 # or v2 if available
-        with:
-          artifact-name: dist
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          branch: gh-pages # or main if you deploy to main branch
-          folder: dist
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Dioxus Deploy
+              uses: DioxusLabs/deploy-action@4f933485ec8f37a9dc1beec181f4eba58789523e
+              with:
+                  outDirectory: "target/dx/my_website/release/web/public"
