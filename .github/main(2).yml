@@ -31,18 +31,18 @@ jobs:
                   git config --global user.email "actions@github.com"
                   git fetch
             - name: Download Resume
-              uses: robinraju/release-downloader@v1.11
-              with:
-                  latest: true
-                  fileName: "resume.pdf"
-                  out-file-path: "data/docs/"
-                  repository: "MH0386/MH0386"
-            - name: Commit and Push Resume
-              run: |
-                  git add data/docs/
-                  git commit -m "Update Docs" || echo "No changes to commit"
-                  git pull
-                  git push || (echo "Failed to push changes" && exit 1)
+            #   uses: robinraju/release-downloader@v1.11
+            #   with:
+            #       latest: true
+            #       fileName: "Abdelrahman Mostafa_250201_181502.pdf"
+            #       out-file-path: "data/docs/"
+            #       repository: "https://github.com/Eng-Abdelrahman-Mostafa-Mohamed/MyProfile/blob/main/assets/my_cv/Abdelrahman%20Mostafa_250201_181502.pdf"
+            # - name: Commit and Push Resume
+            #   run: |
+            #       git add data/docs/
+            #       git commit -m "Update Docs" || echo "No changes to commit"
+            #       git pull
+            #       git push || (echo "Failed to push changes" && exit 1)
             - name: Fetch gh-pages
               run: |
                   git config --global user.name "GitHub Actions"
