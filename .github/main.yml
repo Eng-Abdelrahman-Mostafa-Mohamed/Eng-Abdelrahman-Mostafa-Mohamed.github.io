@@ -25,29 +25,8 @@ jobs:
       - name: Install Dioxus CLI
         run: cargo install dioxus-cli
 
-      - name: Get project name
-        id: project_name
-        run: |
-          PROJECT_NAME=$(grep 'name = ' Cargo.toml | cut -d '"' -f 2)
-          echo "PROJECT_NAME=$PROJECT_NAME" >> $GITHUB_ENV
-
-      - name: Build Dioxus app for WASM
-        run: |
-          cargo build --target wasm32-unknown-unknown --release
-
-      - name: Create dist directory
-        run: mkdir -p dist
-
-      - name: Copy static files
-        run: |
-          cp target/wasm32-unknown-unknown/release/${{ env.PROJECT_NAME }}.js dist/
-          cp target/wasm32-unknown-unknown/release/${{ env.PROJECT_NAME }}_bg.wasm dist/
-          cp index.html dist/
-          cp -r assets dist/  # Copy any additional assets if needed
-
-      - name: Replace placeholder in index.html
-        run: |
-          sed -i "s/__APP_NAME__/${{ env.PROJECT_NAME }}/g" dist/index.html
+      - name: Build Dioxus app
+        run: dx build --release
 
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v2
