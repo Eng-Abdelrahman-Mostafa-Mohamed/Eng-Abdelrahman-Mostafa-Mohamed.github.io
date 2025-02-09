@@ -1,13 +1,40 @@
-name: gh-pages
+name: Build and Deploy Dioxus App
+
 on:
-    workflow_dispatch:
-    push:
-        branches: [main]
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
 jobs:
-    build:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Dioxus Deploy
-              uses: DioxusLabs/deploy-action@4f933485ec8f37a9dc1beec181f4eba58789523e
-              with:
-                  outDirectory: "target/dx/my-profile/release/web/public"
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Rust and WASM target
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+          target: wasm32-unknown-unknown
+          components: rustfmt, clippy
+
+      - name: Install Dioxus CLI
+        run: cargo install dioxus-cli
+
+      - name: Build Dioxus app
+        run: dx build --release
+
+      - name: Verify build output
+        run: |
+          ls -R target/dx/my-profile/release/web/public/
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./target/dx/my-profile/release/web/public
+          publish_branch: gh-pages
