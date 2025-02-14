@@ -11,3 +11,6 @@ jobs:
               uses: DioxusLabs/deploy-action@4f933485ec8f37a9dc1beec181f4eba58789523e
               with:
                   outDirectory: "target/dx/my-profile/release/web/public"
+
+
+                  
