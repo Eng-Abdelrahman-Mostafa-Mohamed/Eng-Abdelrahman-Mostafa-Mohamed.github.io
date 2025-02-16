@@ -43,7 +43,10 @@ fn App() -> Element {
 #[component]
 fn Home() -> Element {
     rsx! {
-        document::Stylesheet { href: SOCIAL_ASSETS }
+        head {
+            meta { name: "viewport", content: "width=device-width, initial-scale=1.0" }
+            document::Stylesheet { href: SOCIAL_ASSETS }
+        }
         Social_media_toolbar {}
         typing_Name{}
         MY_avatar{}
@@ -162,6 +165,10 @@ pub fn Social_media_toolbar() -> Element {
 #[component]
 pub fn projects_pannel(props: ProjectProps) -> Element {
     rsx! {
+        head {
+            meta { name: "viewport", content: "width=device-width, initial-scale=1.0" }
+            // document::Stylesheet { href: SOCIAL_ASSETS }
+        }
         div {
             class: "project-panel",
             a {
@@ -183,6 +190,10 @@ pub fn projects_pannel(props: ProjectProps) -> Element {
 #[component]
 pub fn typing_Name()->Element{
     rsx!{
+        head {
+            meta { name: "viewport", content: "width=device-width, initial-scale=1.0" }
+            // document::Stylesheet { href: SOCIAL_ASSETS }
+        }
         div {   
             id:"typing_name",
             h1{"Abdelrahman Mostafa Mohamed"}
