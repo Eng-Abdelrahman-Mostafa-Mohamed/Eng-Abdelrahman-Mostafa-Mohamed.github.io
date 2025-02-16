@@ -1,9 +1,9 @@
 use dioxus::{html::h1,  prelude::*};
 use dioxus_router::prelude::*;
 
-const SOCIAL_ASSETS: Asset = asset!("/assets/main.css");
+const SOCIAL_ASSETS: Asset = asset!("assets/main.css");
 const PROJECTS_ASSETS: Asset = asset!("assets/projects.css");
-const GITHUB_ICON: Asset = asset!("/assets/github.svg"); 
+const GITHUB_ICON: Asset = asset!("assets/github.svg"); 
 const LINKED_IN_ICON: Asset = asset!("assets/linkedin.svg");
 const HUGGING_FACE_ICON: Asset = asset!("assets/Hugging_Face_idJ6-I79C__0.svg");
 const KAGGLE_ICON: Asset = asset!("assets/Kaggle_idAheRAizH_1.svg");
@@ -12,11 +12,13 @@ const PROJECTS_HEAD_ICON: Asset = asset!("assets/codeing_projects.svg");
 const CV_ASSET: Asset = asset!("assets/my_cv/Abdelrahman Mostafa_250201_181502.pdf");
 const CV_ICON: Asset = asset!("assets/my_cv/iconmonstr-cv-3.svg");
 #[derive(Props,Clone,PartialEq)]
+
 struct ProjectProps {
     name_of_project: &'static str,
     link_of_project: &'static str,
     image_of_project: &'static str,
 }
+
 #[derive(Routable, Clone, PartialEq)]
 enum Route {
     #[route("/")]
@@ -31,15 +33,35 @@ fn main() {
     dioxus::launch(App);
 }
 
+// #[component]
+// fn App() -> Element {
+//     rsx! {
+//         Router::<Route> {
+//             config: Callback::new(|_| RouterConfig::default()),
+//         }
+//     }
+// }
+
+
+
+// ... (Your Route enum and other components)
+
 #[component]
 fn App() -> Element {
     rsx! {
-        Router::<Route> {
-            config: Callback::new(|_| RouterConfig::default()),
+            head {
+                meta {
+                    name: "viewport",
+                    content: "width=device-width, initial-scale=1.0" // CRUCIAL for mobile responsiveness
+                }
+            }
+            body {
+                Router::<Route> {
+                    config: Callback::new(|_| RouterConfig::default()),
+                }
+            }
         }
     }
-}
-
 #[component]
 fn Home() -> Element {
     rsx! {
